@@ -6,7 +6,9 @@ let userSeq=[];
  let started=false;
  let level=0;
  let h2=document.querySelector("h2");
-  let h3=document.querySelector("h3");
+ let highScore = localStorage.getItem("highScore") || 0;
+let h3 = document.querySelector("h3");
+h3.innerText = `Highest Score: ${highScore}`;
  document.addEventListener("keypress",function(){
     if(started==false){
         console.log("game is started");
@@ -48,14 +50,20 @@ let userSeq=[];
      }
    }
    else{    
-      h2.innerHTML=`Game Over! your score was <b> ${level*10} </b> <br>press any key to start.`;
-      document.querySelector("body").style.backgroundColor="red";
-      setTimeout(function(){
-         document.querySelector("body").style.backgroundColor="white";
-      },500);
-      reset();
-   }
- }
+  let currentScore = level * 10;
+
+  if (currentScore > highScore) {
+    highScore = currentScore;
+    localStorage.setItem("highScore", highScore);
+  }
+
+  h2.innerHTML = `Game Over! your score was <b>${currentScore}</b> <br>Press any key to start.`;
+  h3.innerText = `Highest Score: ${highScore}`;
+  document.querySelector("body").style.backgroundColor = "red";
+  
+  reset();
+}
+ 
  function btnpress(){
    // console.log("this");
    let btn=this;
